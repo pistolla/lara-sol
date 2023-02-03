@@ -79,7 +79,7 @@ class UserApiController extends Controller
 
     /**
      * @OA\Get(path="/user/login",
-     *     tags={"User"},
+     *     tags={"AUth"},
      *     summary="Logs user into the system",
      *     description="",
      *     operationId="loginUser",
