@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CountiesResource;
+use App\Models\Counties;
 use Illuminate\Http\Request;
 
 class CountiesApiController extends Controller
@@ -23,7 +25,9 @@ class CountiesApiController extends Controller
      */
     public function index()
     {
-        //
+        $counties = Counties::paginate(50);
+
+        return CountiesResource::collection($counties);
     }
 
     /**

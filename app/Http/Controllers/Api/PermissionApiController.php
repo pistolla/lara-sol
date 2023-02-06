@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PermissionResource;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionApiController extends Controller
@@ -23,7 +25,9 @@ class PermissionApiController extends Controller
      */
     public function index()
     {
-        //
+        $permissions = Permission::paginate(50);
+
+        return PermissionResource::collection($permissions);
     }
 
     /**

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FarmTypesResource;
+use App\Http\Resources\WardsResource;
+use App\Models\FarmTypes;
+use App\Models\Wards;
 use Illuminate\Http\Request;
 
 class FarmTypesApiController extends Controller
@@ -23,7 +27,9 @@ class FarmTypesApiController extends Controller
      */
     public function index()
     {
-        //
+        $wards = FarmTypes::paginate(50);
+
+        return FarmTypesResource::collection($wards);
     }
 
     /**

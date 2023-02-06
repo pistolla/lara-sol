@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\CountiesApiController;
+use App\Http\Controllers\Api\FarmerApiController;
+use App\Http\Controllers\Api\FarmTypesApiController;
+use App\Http\Controllers\Api\PermissionApiController;
+use App\Http\Controllers\Api\ProducesApiController;
+use App\Http\Controllers\Api\RoleApiController;
+use App\Http\Controllers\Api\WardsApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +24,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('counties', CountiesApiController::class);
+Route::resource('farmers', FarmerApiController::class);
+Route::resource('farm-types', FarmTypesApiController::class);
+Route::resource('permissions', PermissionApiController::class);
+Route::resource('produces', ProducesApiController::class);
+Route::resource('roles', RoleApiController::class);
+Route::resource('wards', WardsApiController::class);

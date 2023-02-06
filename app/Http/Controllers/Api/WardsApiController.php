@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\WardsResource;
+use App\Models\Wards;
 use Illuminate\Http\Request;
 
 class WardsApiController extends Controller
@@ -23,7 +25,9 @@ class WardsApiController extends Controller
      */
     public function index()
     {
-        //
+        $wards = Wards::paginate(50);
+
+        return WardsResource::collection($wards);
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FarmerResource;
+use App\Models\Farmer;
 use Illuminate\Http\Request;
 
 class FarmerApiController extends Controller
@@ -24,6 +26,9 @@ class FarmerApiController extends Controller
     public function index()
     {
         //
+        $farmers = Farmer::paginate(50);
+
+        return FarmerResource::collection($farmers);
     }
 
     /**

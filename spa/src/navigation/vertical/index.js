@@ -1,56 +1,49 @@
 // ** Icon imports
-import Login from 'mdi-material-ui/Login'
-import HomeOutline from 'mdi-material-ui/HomeOutline'
-import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
-import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
-import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
-import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import { FcCollect, FcConferenceCall, FcDoughnutChart, FcManager, FcKey,FcPortraitMode, FcServices, FcBusinessman } from "react-icons/fc";
 
 const navigation = () => {
   return [
     {
       title: 'Dashboard',
-      icon: HomeOutline,
+      icon: FcDoughnutChart,
       path: '/'
     },
     {
       title: 'Farmers',
-      icon: AccountCogOutline,
-      path: '/evoucher'
+      icon: FcConferenceCall,
+      path: '/farmers'
     },
     {
       title: 'Evoucher',
-      icon: Login,
+      icon: FcCollect,
       path: '/evoucher',
       openInNewTab: true
     },
     {
       title: 'User Management',
-      icon: AccountPlusOutline,
+      icon: FcManager,
       path: '/users',
       openInNewTab: true
     },
     {
       title: 'User Roles',
-      icon: AlertCircleOutline,
+      icon: FcPortraitMode,
       path: '/roles',
       openInNewTab: true
     },
     {
       title: 'User Permissions',
-      icon: FormatLetterCase,
+      icon: FcKey,
       path: '/permissions'
     },
     {
       title: 'Setup',
       path: '/setup',
-      icon: GoogleCirclesExtended
+      icon: FcServices
     },
     {
       title: 'Profile',
-      icon: CreditCardOutline,
+      icon: FcBusinessman,
       path: '/profile'
     }
   ]

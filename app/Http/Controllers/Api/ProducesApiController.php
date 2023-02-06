@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProducesResource;
+use App\Models\Produces;
 use Illuminate\Http\Request;
 
 class ProducesApiController extends Controller
@@ -23,7 +25,9 @@ class ProducesApiController extends Controller
      */
     public function index()
     {
-        //
+        $produces = Produces::paginate(50);
+
+        return ProducesResource::collection($produces);
     }
 
     /**

@@ -1496,7 +1496,7 @@
         "/user/login": {
             "get": {
                 "tags": [
-                    "User"
+                    "AUth"
                 ],
                 "summary": "Logs user into the system",
                 "description": "",
