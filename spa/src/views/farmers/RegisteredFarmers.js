@@ -27,6 +27,7 @@ const RegisteredFarmers = () => {
     $.DataTable = require('datatables.net')
     const tableRef = useRef()
     const [records, setRecords] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [isClearable, setIsClearable] = useState(true);
     const [isSearchable, setIsSearchable] = useState(true);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -43,12 +44,45 @@ const RegisteredFarmers = () => {
     const [selectedFarmType, setSelectedFarmType] = useState("");
 
     const loadFarmersData = () => {
+      if(!isLoaded) {
         axios.get('http://localhost/api/farmers').then(res => 
         {
           setRecords(res.data.data);
           loadTableData();
           loadFilterData()
         });
+      }
+    }
+
+    const searchFarmers = (term) => {
+      if(term != undefined) {
+        setIsLoaded(false);
+        axios.get('http://localhost/api/farmers?search='+term).then(res => 
+        {
+          setRecords(res.data.data);
+          loadTableData();
+        });
+      }
+    }
+
+    const orderFarmers = (column) => {
+      if(column != undefined) {
+        setIsLoaded(false);
+        axios.get('http://localhost/api/farmers?column='+column).then(res => 
+        {
+          setRecords(res.data.data);
+          loadTableData();
+        });
+      }
+    }
+
+    const pageFarmers = (start, end) => {
+      setIsLoaded(false);
+      axios.get('http://localhost/api/farmers?start='+start+'&end='+end).then(res => 
+      {
+        setRecords(res.data.data);
+        loadTableData();
+      });
     }
 
     const loadFilterData = () => {
@@ -95,10 +129,13 @@ const RegisteredFarmers = () => {
   const loadTableData = () => {
     const table = $(tableRef.current)
     .on('order.dt', function (type) {
+      orderFarmers(type.data);
     })
     .on('search.dt', function (type) {
+      searchFarmers(type.data);
     })
     .on('page.dt', function (type) {
+      console.log(type);
     }).DataTable({
         data: records,
         columns: [
@@ -181,18 +218,22 @@ const RegisteredFarmers = () => {
       });
       return function() {
         console.log("Table destroyed")
-        table.destroy()
+        // table.destroy()
+        setIsLoaded(true);
     }
+
   }
 
   useEffect(() => {
-    loadFarmersData();
+    if(!isLoaded) {
+      loadFarmersData();
+    }
   }, [records])
 
   return ( <CardContent >
     <form>
         <Grid container spacing = { 7} >
-            <Grid item xs = { 3 } >
+            <Grid item xs={12} md={3} lg={3} >
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
@@ -207,7 +248,7 @@ const RegisteredFarmers = () => {
                     placeholder={<div>Select County</div>}
                 />
             </Grid>
-            <Grid item xs = { 3 } >
+            <Grid item xs={12} md={3} lg={3} >
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
@@ -222,7 +263,7 @@ const RegisteredFarmers = () => {
                     placeholder={<div>Select Ward</div>}
                 />
             </Grid>
-            <Grid item xs = { 3 } >
+            <Grid item xs={12} md={3} lg={3} >
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
@@ -237,7 +278,7 @@ const RegisteredFarmers = () => {
                     placeholder={<div>Select Farm Produce</div>}
                 />
             </Grid>
-            <Grid item xs = { 3 } >
+            <Grid item xs={12} md={3} lg={3} >
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
@@ -252,7 +293,7 @@ const RegisteredFarmers = () => {
                     placeholder={<div>Select Farm Types</div>}
                 />
             </Grid>
-            <Grid item xs = { 2 } >
+            <Grid item xs={12} md={2} lg={2} >
                 <Button
                     fullWidth
                     size='large'

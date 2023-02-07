@@ -25,9 +25,19 @@ class FarmerApiController extends Controller
      */
     public function index()
     {
-        //
-        $farmers = Farmer::paginate(50);
-
+        $farmers =  (new Farmer)->newCollection();
+        if(request()->get('search')){
+            $searchToken = request()->get('search');
+            $farmers = Farmer::table('farmers')
+                ->where('national_id','LIKE','%'.$searchToken.'%')
+                ->orWhere('first_name','LIKE','%'.$searchToken.'%')
+                ->orWhere('last_name','LIKE','%'.$searchToken.'%')
+                ->orWhere('phone','LIKE','%'.$searchToken.'%')
+                ->orWhere('email','LIKE','%'.$searchToken.'%')
+                ->get();
+        } else {
+            $farmers = Farmer::paginate(50);
+        }
         return FarmerResource::collection($farmers);
     }
 
