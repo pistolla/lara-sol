@@ -23,6 +23,8 @@ import RegisteredFarmers from 'src/views/farmers/RegisteredFarmers'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import ApproveFarmers from 'src/views/farmers/ApproveFarmers'
+import ApprovedFarmers from 'src/views/farmers/ApprovedFarmers'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -63,7 +65,7 @@ const Farmers = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountOutline />
-                <TabName>Registered Farmers</TabName>
+                <TabName>Pending Farmers</TabName>
               </Box>
             }
           />
@@ -81,7 +83,7 @@ const Farmers = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <InformationOutline />
-                <TabName>Eligible Farmers</TabName>
+                <TabName>Registered Farmers</TabName>
               </Box>
             }
           />
@@ -91,10 +93,10 @@ const Farmers = () => {
           <RegisteredFarmers />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
+          <ApproveFarmers />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
+          <ApprovedFarmers />
         </TabPanel>
       </TabContext>
     </Card>

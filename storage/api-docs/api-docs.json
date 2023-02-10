@@ -209,6 +209,26 @@
                 ],
                 "description": "Get all Dashboard",
                 "operationId": "getDashboard",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter column",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "specify",
+                        "in": "query",
+                        "description": "Specify value",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

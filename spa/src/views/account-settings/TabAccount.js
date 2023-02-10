@@ -22,8 +22,8 @@ import Button from '@mui/material/Button'
 import Close from 'mdi-material-ui/Close'
 
 const ImgStyled = styled('img')(({ theme }) => ({
-  width: 120,
-  height: 120,
+  width: 240,
+  height: 240,
   marginRight: theme.spacing(6.25),
   borderRadius: theme.shape.borderRadius
 }))
@@ -65,10 +65,10 @@ const TabAccount = () => {
         <Grid container spacing={7}>
           <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ImgStyled src={imgSrc} alt='Profile Pic' />
+              <ImgStyled src={imgSrc} alt='FarmHouse Pic' />
               <Box>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
-                  Upload New Photo
+                  Upload Farm House Photo
                   <input
                     hidden
                     type='file'

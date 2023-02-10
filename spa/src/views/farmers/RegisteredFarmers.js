@@ -9,19 +9,20 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import Select from 'react-select';
 
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 
-import $ from "jquery";
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
+
+import $ from "jquery";
+require("datatables.net-buttons");
+require("datatables.net-dt");
+require("datatables.net-buttons/js/buttons.html5.min.js")
 
 const RegisteredFarmers = () => {
     $.DataTable = require('datatables.net')
@@ -45,10 +46,10 @@ const RegisteredFarmers = () => {
 
     const loadFarmersData = () => {
       if(!isLoaded) {
-        axios.get('http://localhost/api/farmers').then(res => 
+        axios.get('http://localhost/api/farmers?filter=status&value=Registered').then(res => 
         {
           setRecords(res.data.data);
-          loadTableData();
+          loadTableData(res.data.data);
           loadFilterData()
         });
       }
@@ -57,7 +58,7 @@ const RegisteredFarmers = () => {
     const searchFarmers = (term) => {
       if(term != undefined) {
         setIsLoaded(false);
-        axios.get('http://localhost/api/farmers?search='+term).then(res => 
+        axios.get('http://localhost/api/farmers?filter=status&value=Registered&search='+term).then(res => 
         {
           setRecords(res.data.data);
           loadTableData();
@@ -68,7 +69,7 @@ const RegisteredFarmers = () => {
     const orderFarmers = (column) => {
       if(column != undefined) {
         setIsLoaded(false);
-        axios.get('http://localhost/api/farmers?column='+column).then(res => 
+        axios.get('http://localhost/api/farmers?filter=status&value=Registered&column='+column).then(res => 
         {
           setRecords(res.data.data);
           loadTableData();
@@ -78,7 +79,7 @@ const RegisteredFarmers = () => {
 
     const pageFarmers = (start, end) => {
       setIsLoaded(false);
-      axios.get('http://localhost/api/farmers?start='+start+'&end='+end).then(res => 
+      axios.get('http://localhost/api/farmers?filter=status&value=Registered&start='+start+'&end='+end).then(res => 
       {
         setRecords(res.data.data);
         loadTableData();
@@ -126,7 +127,7 @@ const RegisteredFarmers = () => {
         });
     }
 
-  const loadTableData = () => {
+  const loadTableData = (values = []) => {
     const table = $(tableRef.current)
     .on('order.dt', function (type) {
       orderFarmers(type.data);
@@ -137,7 +138,7 @@ const RegisteredFarmers = () => {
     .on('page.dt', function (type) {
       console.log(type);
     }).DataTable({
-        data: records,
+        data: values,
         columns: [
             { title: "ID", data: "id" },
             { title: "National ID", data: "national_id"},
@@ -161,7 +162,7 @@ const RegisteredFarmers = () => {
         select: {
           style: "single",
         },
-        "language": {
+        language: {
             // Add loading image <img src="loader.gif" /> tag, or simple text
             "processing": "Please wait for the response..."
         },
@@ -169,25 +170,15 @@ const RegisteredFarmers = () => {
             extend: "pageLength",
             className: "MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root",
           },
+          { extend: 'excel', text: 'Save as Excel' },
           {
             extend: "copy",
-            className: "btn btn-secondary bg-secondary",
+            className: "MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root",
           },
           {
             extend: "csv",
-            className: "btn btn-secondary bg-secondary",
-          },
-          {
-            extend: "print",
-            customize: function (win) {
-              $(win.document.body).css("font-size", "10pt");
-              $(win.document.body)
-                .find("table")
-                .addClass("compact")
-                .css("font-size", "inherit");
-            },
-            className: "btn btn-secondary bg-secondary",
-          },
+            className: "MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root",
+          }
         ],
 
         fnRowCallback: function (
@@ -207,6 +198,8 @@ const RegisteredFarmers = () => {
         ],
         columnDefs: [{
           targets: 0,
+          orderable: false,
+          className: 'select-checkbox',
           render: function (data, type, row, meta) {
             return type === "export" ? meta.row + 1 : data;
           },
@@ -216,6 +209,7 @@ const RegisteredFarmers = () => {
             targets: "_all"
         }],
       });
+      console.log($.fn.dataTable.ext.buttons);
       return function() {
         console.log("Table destroyed")
         // table.destroy()
@@ -228,7 +222,7 @@ const RegisteredFarmers = () => {
     if(!isLoaded) {
       loadFarmersData();
     }
-  }, [records])
+  }, [])
 
   return ( <CardContent >
     <form>

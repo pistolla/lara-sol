@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FarmerResource;
 use App\Models\Farmer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FarmerApiController extends Controller
 {
@@ -28,15 +29,36 @@ class FarmerApiController extends Controller
         $farmers =  (new Farmer)->newCollection();
         if(request()->get('search')){
             $searchToken = request()->get('search');
-            $farmers = Farmer::table('farmers')
+            $filterCol = request()->get('filter');
+            $filterValue = request()->get('value');
+            if($filterCol == 'status' && $filterValue) {
+                $farmers = DB::table('farmers')
                 ->where('national_id','LIKE','%'.$searchToken.'%')
+                ->addWhere('status','=',$filterValue)
                 ->orWhere('first_name','LIKE','%'.$searchToken.'%')
                 ->orWhere('last_name','LIKE','%'.$searchToken.'%')
                 ->orWhere('phone','LIKE','%'.$searchToken.'%')
                 ->orWhere('email','LIKE','%'.$searchToken.'%')
                 ->get();
+            } else {
+                $farmers = DB::table('farmers')
+                    ->where('national_id','LIKE','%'.$searchToken.'%')
+                    ->orWhere('first_name','LIKE','%'.$searchToken.'%')
+                    ->orWhere('last_name','LIKE','%'.$searchToken.'%')
+                    ->orWhere('phone','LIKE','%'.$searchToken.'%')
+                    ->orWhere('email','LIKE','%'.$searchToken.'%')
+                    ->get();
+            }
         } else {
-            $farmers = Farmer::paginate(50);
+            $filterCol = request()->get('filter');
+            $filterValue = request()->get('value');
+            if($filterCol == 'status' && $filterValue) {
+                $farmers = DB::table('farmers')
+                    ->where('status','=',$filterValue)
+                    ->get();
+            } else {
+                $farmers = Farmer::paginate(50);
+            }
         }
         return FarmerResource::collection($farmers);
     }

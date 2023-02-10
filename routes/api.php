@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CountiesApiController;
+use App\Http\Controllers\Api\DashboardApiController;
 use App\Http\Controllers\Api\FarmerApiController;
 use App\Http\Controllers\Api\FarmTypesApiController;
 use App\Http\Controllers\Api\PermissionApiController;
@@ -32,3 +33,4 @@ Route::resource('permissions', PermissionApiController::class);
 Route::resource('produces', ProducesApiController::class);
 Route::resource('roles', RoleApiController::class);
 Route::resource('wards', WardsApiController::class);
+Route::resource('dashboard', DashboardApiController::class);
